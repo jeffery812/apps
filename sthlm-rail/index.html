@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>STHLM Rail: Stockholm departures as platform signs</title>
+<meta name="description" content="Tap a station on the Stockholm rail map and see the next metro, commuter train, tram, bus or boat, shown like an SL platform sign. Free for iPhone and iPad.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" type="image/png" href="images/icon-180.png">
+<link rel="apple-touch-icon" href="images/icon-180.png">
+<meta name="apple-itunes-app" content="app-id=1084180460">
+<meta property="og:type" content="website">
+<meta property="og:title" content="STHLM Rail: Stockholm departures as platform signs">
+<meta property="og:description" content="Tap a station on the rail map and read its departures the way SL's platform signs show them. Free for iPhone and iPad.">
+<meta property="og:image" content="images/icon-512.png">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MobileApplication",
+  "name": "STHLM Rail",
+  "operatingSystem": "iOS 16.0 or later",
+  "applicationCategory": "TravelApplication",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "SEK" },
+  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.4", "ratingCount": "59" },
+  "downloadUrl": "https://apps.apple.com/se/app/stockholm-rail/id1084180460?l=en-GB"
+}
+</script>
+<style>
+:root{
+  /* Backgrounds come only from the approved dark set. */
+  --bg:#000000; --surface:#181818; --surface-2:#1F1F1F; --surface-3:#272727; --line:#313131;
+  --text:#FFFFFF; --muted:#9B9B9B; --amber:#FFB81C; --alert:#FF4B3E; --ok:#4BA946;
+  --ease:cubic-bezier(0.22,1,0.36,1);
+  --s-25:2px; --s-50:4px; --s-75:8px; --s-100:12px; --s-200:16px; --s-300:24px; --s-400:32px;
+  --s-500:40px; --s-600:48px; --s-700:64px; --s-800:80px; --s-900:96px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:var(--s-900)}
+body{background:var(--bg);color:var(--text);font-family:'Geist',system-ui,sans-serif;font-size:16px;line-height:24px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--amber);outline-offset:4px;border-radius:8px}
+h1,h2,h3,h4,p,li,dt,dd{text-wrap:pretty}
+h1,h2,h3,h4{text-wrap:balance}
+
+/* ---------- Text styles (B1) ---------- */
+.heading-1{font-size:60px;line-height:60px;font-weight:600;letter-spacing:-0.02em}
+.heading-2{font-size:48px;line-height:48px;font-weight:600;letter-spacing:-0.02em}
+.heading-3{font-size:36px;line-height:40px;font-weight:600;letter-spacing:-0.01em}
+.heading-4{font-size:30px;line-height:36px;font-weight:600;letter-spacing:-0.01em}
+.heading-5{font-size:24px;line-height:32px;font-weight:600}
+.heading-6{font-size:20px;line-height:28px;font-weight:600}
+.title-1{font-size:20px;line-height:28px;font-weight:500}
+.title-2{font-size:18px;line-height:28px;font-weight:500}
+.title-3{font-size:16px;line-height:24px;font-weight:500}
+.title-4{font-size:14px;line-height:20px;font-weight:500}
+.body-2{font-size:16px;line-height:24px;font-weight:500}
+.body-3{font-size:16px;line-height:24px;font-weight:400}
+.body-5{font-size:14px;line-height:20px;font-weight:500}
+.body-6{font-size:14px;line-height:20px;font-weight:400}
+.button-lg{font-size:18px;line-height:28px;font-weight:600}
+.button-md{font-size:16px;line-height:24px;font-weight:600}
+.button-sm{font-size:14px;line-height:20px;font-weight:600}
+.caption-2{font-size:14px;line-height:20px;font-weight:400}
+.caption-3{font-size:12px;line-height:16px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase}
+.caption-5{font-size:12px;line-height:16px;font-weight:400}
+.mono{font-family:'Geist Mono',ui-monospace,monospace}
+.muted{color:var(--muted)}
+
+.wrap{max-width:1200px;margin:0 auto;padding:0 var(--s-200)}
+.skip{position:absolute;left:var(--s-200);top:var(--s-200);z-index:200;background:var(--amber);color:#000;padding:var(--s-75) var(--s-100);border-radius:8px;text-decoration:none;transform:translateY(-200%);transition:transform 300ms var(--ease)}
+.skip:focus{transform:none}
+
+/* ---------- Buttons (B2, B9) ---------- */
+.btn{display:inline-flex;align-items:center;gap:var(--s-75);padding:var(--s-75) var(--s-100);border-radius:12px;text-decoration:none;border:0;cursor:pointer;
+  transition:transform 300ms var(--ease),background-color 300ms var(--ease),opacity 300ms var(--ease)}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:scale(0.98)}
+.btn-primary{background:var(--amber);color:#000}
+.btn-primary:hover{background:#FFC64A}
+.btn-lg{padding:var(--s-100) var(--s-300);border-radius:16px}
+.btn-lg i{font-size:24px}
+.btn-ghost{background:var(--surface-3);color:var(--text)}
+.btn-ghost:hover{background:var(--line)}
+
+/* ---------- Navigation (B7) ---------- */
+.nav{position:fixed;top:var(--s-200);left:50%;transform:translateX(-50%);z-index:100;display:flex;align-items:center;gap:var(--s-300);
+  padding:var(--s-75) var(--s-75) var(--s-75) var(--s-200);border-radius:24px;background:rgba(24,24,24,0.72);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.08);white-space:nowrap}
+.brand{display:flex;align-items:center;gap:var(--s-75);text-decoration:none}
+.brand img{width:32px;height:32px;border-radius:8px}
+.nav-links{display:flex;gap:var(--s-50);list-style:none}
+.nav-links a{display:block;padding:var(--s-75) var(--s-100);border-radius:12px;text-decoration:none;color:var(--muted);transition:color 300ms var(--ease),background-color 300ms var(--ease)}
+.nav-links a:hover{color:var(--text);background:var(--surface-3)}
+.nav-links a[aria-current="true"]{color:var(--text);background:var(--surface-3)}
+.toggle{display:none;width:40px;height:40px;border-radius:16px;border:0;background:var(--surface-3);cursor:pointer;position:relative}
+.toggle span{position:absolute;left:12px;width:16px;height:2px;border-radius:2px;background:var(--text);transition:transform 500ms var(--ease)}
+.toggle span:first-child{top:15px}
+.toggle span:last-child{top:23px}
+.menu-open .toggle span:first-child{transform:translateY(4px) rotate(45deg)}
+.menu-open .toggle span:last-child{transform:translateY(-4px) rotate(-45deg)}
+.panel{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,0.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  padding:var(--s-900) var(--s-300) var(--s-400);display:flex;flex-direction:column;gap:var(--s-75);opacity:0;pointer-events:none;transition:opacity 500ms var(--ease)}
+.menu-open .panel{opacity:1;pointer-events:auto}
+.panel a{text-decoration:none;padding:var(--s-100) 0;opacity:0;transform:translateY(24px);transition:opacity 500ms var(--ease),transform 500ms var(--ease)}
+.panel .btn{margin-top:var(--s-300);justify-content:center}
+.menu-open .panel a{opacity:1;transform:none}
+@media (max-width:760px){
+  .nav{left:var(--s-200);right:var(--s-200);transform:none;justify-content:space-between}
+  .nav-links,.nav .btn{display:none}
+  .toggle{display:block}
+}
+
+/* ---------- Hero (B5) ---------- */
+.hero{padding:160px 0 var(--s-700);text-align:center}
+.clock{display:inline-flex;align-items:center;gap:var(--s-75);padding:var(--s-50) var(--s-100);border-radius:12px;background:var(--surface);border:1px solid var(--line);color:var(--amber)}
+.clock .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);animation:pulse 2s var(--ease) infinite}
+@keyframes pulse{50%{opacity:0.3}}
+.grad{background:linear-gradient(90deg,#FFFFFF,#9B9B9B);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero h1{max-width:680px;margin:var(--s-300) auto 0}
+.hero .sub{max-width:680px;margin:var(--s-300) auto 0;color:var(--muted)}
+.cta-row{display:flex;flex-direction:column;align-items:center;gap:var(--s-200);margin-top:var(--s-500)}
+.proof{display:flex;align-items:center;gap:var(--s-75);color:var(--muted)}
+.proof .stars{color:var(--amber);display:inline-flex;gap:var(--s-25)}
+.proof strong{color:var(--text);font-weight:500}
+
+.phones{position:relative;display:flex;justify-content:center;align-items:flex-end;gap:var(--s-300);margin-top:var(--s-800)}
+.phone{width:280px;flex:none;padding:var(--s-75);border-radius:24px;background:var(--surface-2);border:1px solid var(--line)}
+.phone img{border-radius:16px}
+.phone.side{width:240px;opacity:0.55;transform:translateY(var(--s-600))}
+@media (max-width:900px){.phone.side{display:none}}
+
+/* ---------- Sections ---------- */
+section{padding:var(--s-900) 0}
+.kicker{color:var(--amber);margin-bottom:var(--s-200)}
+.section-head{max-width:680px;margin-bottom:var(--s-700)}
+.section-head p{margin-top:var(--s-300);color:var(--muted)}
+.center{text-align:center;margin-left:auto;margin-right:auto}
+
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-200)}
+.card{padding:var(--s-400);border-radius:24px;background:var(--surface);border:1px solid var(--line)}
+.card.accent{border-color:rgba(255,184,28,0.4)}
+.steps-list{list-style:none;display:flex;flex-direction:column;gap:var(--s-100);margin-top:var(--s-300)}
+.steps-list li{display:flex;gap:var(--s-100);align-items:flex-start}
+.steps-list i{font-size:20px;margin-top:var(--s-25);flex:none}
+.card .heading-6{display:flex;align-items:center;gap:var(--s-75)}
+.strike{color:var(--muted)}
+.strike i{color:#5E5E5E}
+.accent .steps-list i{color:var(--amber)}
+@media (max-width:760px){.compare{grid-template-columns:1fr}}
+
+.feature{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-700);align-items:center;padding:var(--s-700) 0}
+.feature + .feature{border-top:1px solid var(--line)}
+.feature .copy{max-width:480px}
+.feature .copy p{margin-top:var(--s-200);color:var(--muted)}
+.feature .shot{display:flex;justify-content:center}
+.feature:nth-child(even) .shot{order:-1}
+.tags{display:flex;flex-wrap:wrap;gap:var(--s-75);margin-top:var(--s-300);list-style:none}
+.tags li{display:flex;align-items:center;gap:var(--s-50);padding:var(--s-50) var(--s-100);border-radius:12px;background:var(--surface-2);border:1px solid var(--line);color:var(--muted)}
+.tags i{color:var(--amber)}
+@media (max-width:860px){
+  .feature{grid-template-columns:1fr;gap:var(--s-500)}
+  .feature:nth-child(even) .shot{order:0}
+}
+
+.extras{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s-200);margin-top:var(--s-700)}
+.extra{padding:var(--s-300);border-radius:16px;background:var(--surface);border:1px solid var(--line)}
+.extra i{font-size:24px;color:var(--amber)}
+.extra h3{margin-top:var(--s-200)}
+.extra p{margin-top:var(--s-75);color:var(--muted)}
+@media (max-width:900px){.extras{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.extras{grid-template-columns:1fr}}
+
+/* ---------- Tagline reveal (B11) ---------- */
+.tagline{padding:160px 0}
+.tagline p{max-width:680px;margin:0 auto;text-align:center}
+.tagline .w{color:rgba(255,255,255,0.3);transition:color 600ms var(--ease)}
+.tagline .w.on{color:var(--text)}
+.tagline .w.amber.on{color:var(--amber)}
+
+/* ---------- How it works ---------- */
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s-200);list-style:none}
+.how li{padding:var(--s-400) var(--s-300);border-radius:24px;background:var(--surface);border:1px solid var(--line)}
+.how .num{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background:#000;color:var(--amber);border:1px solid var(--line)}
+.how h3{margin-top:var(--s-300)}
+.how p{margin-top:var(--s-75);color:var(--muted)}
+@media (max-width:860px){.how{grid-template-columns:1fr}}
+
+/* ---------- Proof ---------- */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s-200)}
+.stat{padding:var(--s-300);border-radius:16px;background:var(--surface);border:1px solid var(--line)}
+.stat .heading-3{color:var(--amber)}
+.stat p{margin-top:var(--s-75);color:var(--muted)}
+.source{margin-top:var(--s-300);color:var(--muted)}
+.source a{color:var(--text)}
+@media (max-width:860px){.stats{grid-template-columns:1fr 1fr}}
+
+/* ---------- FAQ ---------- */
+.faq{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:var(--s-100)}
+.faq details{border-radius:16px;background:var(--surface);border:1px solid var(--line);transition:border-color 300ms var(--ease)}
+.faq details[open]{border-color:#4A4A4A}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:var(--s-200);padding:var(--s-200) var(--s-300);border-radius:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary i{font-size:20px;color:var(--muted);transition:transform 500ms var(--ease);flex:none}
+.faq details[open] summary i{transform:rotate(45deg)}
+.faq .answer{padding:0 var(--s-300) var(--s-300);color:var(--muted)}
+
+/* ---------- Final CTA ---------- */
+.final{text-align:center}
+.final .card{padding:var(--s-800) var(--s-300)}
+.final img{width:96px;height:96px;border-radius:24px;margin:0 auto var(--s-400)}
+.final h2{max-width:680px;margin:0 auto}
+.final .sub{max-width:560px;margin:var(--s-300) auto 0;color:var(--muted)}
+.reassure{display:flex;flex-wrap:wrap;justify-content:center;gap:var(--s-200);color:var(--muted)}
+.reassure span{display:inline-flex;align-items:center;gap:var(--s-50)}
+.reassure i{color:var(--ok)}
+
+/* ---------- Privacy + footer ---------- */
+.privacy{padding:var(--s-700) 0 var(--s-900)}
+.privacy .card{max-width:760px;margin:0 auto}
+.privacy .more{margin-top:var(--s-300)}
+.privacy .more a{display:inline-flex;align-items:center;gap:var(--s-50);color:var(--amber);text-underline-offset:4px}
+.privacy ul{margin-top:var(--s-200);padding-left:var(--s-300);display:flex;flex-direction:column;gap:var(--s-75);color:var(--muted)}
+footer{border-top:1px solid var(--line);padding:var(--s-400) 0 var(--s-600)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:var(--s-200);color:var(--muted)}
+footer nav{display:flex;flex-wrap:wrap;gap:var(--s-300)}
+footer a{text-decoration:none;transition:color 300ms var(--ease)}
+footer a:hover{color:var(--text)}
+
+/* ---------- Scroll reveals (B7) ---------- */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity 700ms var(--ease),transform 700ms var(--ease)}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- Small screens ---------- */
+@media (max-width:760px){
+  .hero{padding-top:128px}
+  .hero .heading-1{font-size:36px;line-height:40px}
+  .heading-2{font-size:30px;line-height:36px}
+  .tagline .heading-1{font-size:36px;line-height:40px}
+  .tagline{padding:var(--s-900) 0}
+  section{padding:var(--s-800) 0}
+  .section-head{margin-bottom:var(--s-500)}
+  .phones{margin-top:var(--s-600)}
+  .phone{width:260px}
+  .card{padding:var(--s-300)}
+  .stats{grid-template-columns:1fr 1fr}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important}
+  .reveal{transform:none;transition:opacity 300ms linear}
+  .btn:hover,.btn:active{transform:none}
+  .panel a{transform:none}
+  .tagline .w{color:var(--text);transition:none}
+  .tagline .w.amber{color:var(--amber)}
+}
+</style>
+</head>
+<body>
+<a class="skip button-sm" href="#main">Skip to content</a>
+
+<header>
+  <nav class="nav" aria-label="Main">
+    <a class="brand title-3" href="#top"><img src="images/icon-180.png" alt="" width="32" height="32">STHLM Rail</a>
+    <ul class="nav-links title-4">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a class="btn btn-primary button-sm" href="https://apps.apple.com/se/app/stockholm-rail/id1084180460?l=en-GB"><i class="ph-fill ph-apple-logo" aria-hidden="true"></i>Download</a>
+    <button class="toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
+  </nav>
+  <div class="panel" id="menu" aria-hidden="true">
+    <a class="heading-4" href="#features">Features</a>
+    <a class="heading-4" href="#how">How it works</a>
+    <a class="heading-4" href="#faq">FAQ</a>
+    <a class="btn btn-primary btn-lg button-lg" href="https://apps.apple.com/se/app/stockholm-rail/id1084180460?l=en-GB"><i class="ph-fill ph-apple-logo" aria-hidden="true"></i>Download free on the App Store</a>
+  </div>
+</header>
+
+<main id="main">
+  <!-- Hero -->
+  <section class="hero" id="top">
+    <div class="wrap">
+      <span class="clock mono body-5"><span class="dot" aria-hidden="true"></span>Stockholm <time id="clock">--:--</time></span>
+      <h1 class="heading-1 grad">Stockholm departures<br> on a platform sign<br> in your pocket</h1>
+      <p class="sub body-3">Tap a station on the rail map and see the next metro, commuter train, tram, bus or boat, laid out the way SL's platform signs show it. Free for iPhone and iPad.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary btn-lg button-lg" href="https://apps.apple.com/se/app/stockholm-rail/id1084180460?l=en-GB"><i class="ph-fill ph-apple-logo" aria-hidden="true"></i>Download free on the App Store</a>
+        <p class="proof body-6"><span class="stars" aria-hidden="true"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph ph-star-half"></i></span><span><strong>4.4</strong> from 59 ratings on the App Store</span></p>
+      </div>
+      <div class="phones">
+        <div class="phone side reveal"><img src="images/map.png" width="460" height="1000" alt="The Stockholm rail network map inside the app, with metro, commuter rail and tram lines"></div>
+        <div class="phone reveal"><img src="images/board-slussen.png" width="460" height="1000" alt="Departure board for Slussen: metro tracks 1 and 2, the next train in large type, a cancelled train to Odenplan in red and station notices on top"></div>
+        <div class="phone side reveal"><img src="images/favourites.png" width="460" height="1000" alt="Favorites screen listing Kista, Slussen, Östberga and Odenplan with their next departures"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problem to solution -->
+  <section id="why">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker caption-3">Why it exists</p>
+        <h2 class="heading-2">You know where you're going. You just need the next train.</h2>
+        <p class="body-3">Journey planners ask for a start, a destination and a time before they tell you anything. Most trips in Stockholm are ones you already know. STHLM Rail opens on the map, so the answer is one tap away.</p>
+      </div>
+      <div class="compare">
+        <div class="card reveal">
+          <h3 class="heading-6 muted"><i class="ph ph-list-magnifying-glass" aria-hidden="true"></i>A typical planner</h3>
+          <ul class="steps-list body-3 strike">
+            <li><i class="ph ph-x-circle" aria-hidden="true"></i>Type where you are</li>
+            <li><i class="ph ph-x-circle" aria-hidden="true"></i>Type where you're going</li>
+            <li><i class="ph ph-x-circle" aria-hidden="true"></i>Pick a time, then scroll the trip list</li>
+            <li><i class="ph ph-x-circle" aria-hidden="true"></i>Still unsure which track to walk to</li>
+          </ul>
+        </div>
+        <div class="card accent reveal">
+          <h3 class="heading-6"><i class="ph-fill ph-train-simple" aria-hidden="true" style="color:var(--amber)"></i>STHLM Rail</h3>
+          <ul class="steps-list body-3">
+            <li><i class="ph ph-check-circle" aria-hidden="true"></i>Tap your station on the map</li>
+            <li><i class="ph ph-check-circle" aria-hidden="true"></i>Read the next three departures right there</li>
+            <li><i class="ph ph-check-circle" aria-hidden="true"></i>Open the full board, sorted by track</li>
+            <li><i class="ph ph-check-circle" aria-hidden="true"></i>Cancellations and delays marked in red</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits -->
+  <section id="features">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker caption-3">Features</p>
+        <h2 class="heading-2">Built around the sign you already read every day</h2>
+      </div>
+
+      <div class="feature reveal">
+        <div class="copy">
+          <h3 class="heading-4">The whole rail map, and every station on it is a button</h3>
+          <p class="body-3">Metro, commuter rail, trams and light rail on one map. Tap a station and a card slides up with its next three departures. Star it, or open the full board.</p>
+        </div>
+        <div class="shot"><div class="phone"><img src="images/preview.png" width="460" height="1000" loading="lazy" alt="Station card for Alviks strand over the rail map, showing tram 30 to Sickla now and two more departures"></div></div>
+      </div>
+
+      <div class="feature reveal">
+        <div class="copy">
+          <h3 class="heading-4">One sign per track, with the next train in large type</h3>
+          <p class="body-3">Metro, commuter and tram departures are grouped by track, the way they hang above the platform. Buses and boats are grouped by stop, with the next three times for every line and direction.</p>
+          <ul class="tags body-5">
+            <li><i class="ph-fill ph-warning-circle" aria-hidden="true"></i>Cancellations</li>
+            <li><i class="ph-fill ph-clock-countdown" aria-hidden="true"></i>Delays</li>
+            <li><i class="ph-fill ph-megaphone" aria-hidden="true"></i>Station notices</li>
+          </ul>
+        </div>
+        <div class="shot"><div class="phone"><img src="images/board-kista.png" width="460" height="1000" loading="lazy" alt="Departure board for Kista with track 1 toward Akalla and track 2 toward Kungsträdgården"></div></div>
+      </div>
+
+      <div class="feature reveal">
+        <div class="copy">
+          <h3 class="heading-4">Your stations, already showing what leaves next</h3>
+          <p class="body-3">Star the stations you use and they line up in Favorites, each with its next departures. Put them in your own order, search the list, and swipe to remove one.</p>
+        </div>
+        <div class="shot"><div class="phone"><img src="images/favourites.png" width="460" height="1000" loading="lazy" alt="Favorites list with four stations and their next departures"></div></div>
+      </div>
+
+      <div class="feature reveal">
+        <div class="copy">
+          <h3 class="heading-4">Can't spot the station? Search the map</h3>
+          <p class="body-3">Start typing and the map finds it, with or without å, ä and ö. Your recent searches stay at the top for next time.</p>
+        </div>
+        <div class="shot"><div class="phone"><img src="images/search.png" width="460" height="1000" loading="lazy" alt="Map search with the query ostb matching Östberga"></div></div>
+      </div>
+
+      <div class="extras">
+        <div class="extra reveal">
+          <i class="ph ph-arrows-clockwise" aria-hidden="true"></i>
+          <h3 class="title-2">Refreshes on its own</h3>
+          <p class="body-6">An open board updates every 20 seconds. Pull down whenever you want it sooner.</p>
+        </div>
+        <div class="extra reveal">
+          <i class="ph ph-cards" aria-hidden="true"></i>
+          <h3 class="title-2">LED or flip board</h3>
+          <p class="body-6">Show times as glowing dots or as flaps that turn over when they change.</p>
+        </div>
+        <div class="extra reveal">
+          <i class="ph ph-sliders-horizontal" aria-hidden="true"></i>
+          <h3 class="title-2">Only the modes you ride</h3>
+          <p class="body-6">Hide buses, boats or anything else you don't need on the board.</p>
+        </div>
+        <div class="extra reveal">
+          <i class="ph ph-translate" aria-hidden="true"></i>
+          <h3 class="title-2">Four languages</h3>
+          <p class="body-6">English, Swedish, Simplified Chinese and Traditional Chinese, switchable inside the app.</p>
+        </div>
+        <div class="extra reveal">
+          <i class="ph ph-signpost" aria-hidden="true"></i>
+          <h3 class="title-2">Trip planning one tap away</h3>
+          <p class="body-6">Need a route from A to B? The More tab opens the planner on sl.se.</p>
+        </div>
+        <div class="extra reveal">
+          <i class="ph ph-vibrate" aria-hidden="true"></i>
+          <h3 class="title-2">Haptic feedback</h3>
+          <p class="body-6">A light tap confirms each action. Turn it off in More if you prefer.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tagline reveal (B11) -->
+  <section class="tagline" aria-label="Tagline">
+    <div class="wrap">
+      <p class="heading-1" id="tagline">The sign on the platform,<br> before you reach<br> the platform.</p>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section id="how">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <p class="kicker caption-3">How it works</p>
+        <h2 class="heading-2">Three taps from your pocket to your track</h2>
+      </div>
+      <ol class="how">
+        <li class="reveal">
+          <span class="num mono title-3">1</span>
+          <h3 class="heading-6">Open the app</h3>
+          <p class="body-3">It starts on the Stockholm rail map. The first launch downloads SL's station list once; after that it updates quietly in the background.</p>
+        </li>
+        <li class="reveal">
+          <span class="num mono title-3">2</span>
+          <h3 class="heading-6">Tap your station</h3>
+          <p class="body-3">A card shows the next three departures. Tap the star to keep the station in Favorites.</p>
+        </li>
+        <li class="reveal">
+          <span class="num mono title-3">3</span>
+          <h3 class="heading-6">Read the board</h3>
+          <p class="body-3">Every track and stop at that station, with cancellations, delays and notices, refreshing while you walk.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Proof -->
+  <section id="proof">
+    <div class="wrap">
+      <div class="stats">
+        <div class="stat reveal"><p class="heading-3 mono">4.4</p><p class="body-6">Average from 59 App Store ratings</p></div>
+        <div class="stat reveal"><p class="heading-3 mono">0 kr</p><p class="body-6">Free, with no in app purchases</p></div>
+        <div class="stat reveal"><p class="heading-3 mono">5</p><p class="body-6">Modes: metro, commuter rail, tram, bus and boat</p></div>
+        <div class="stat reveal"><p class="heading-3 mono">20 s</p><p class="body-6">Between automatic updates on an open board</p></div>
+      </div>
+      <p class="source body-6 reveal">Departure data comes straight from SL's open <a href="https://www.trafiklab.se/">Transport API</a>. STHLM Rail is an independent app and is not affiliated with SL.</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <p class="kicker caption-3">FAQ</p>
+        <h2 class="heading-2">Questions people ask</h2>
+      </div>
+      <div class="faq reveal">
+        <details>
+          <summary class="title-2">Is STHLM Rail free?<i class="ph ph-plus" aria-hidden="true"></i></summary>
+          <p class="answer body-3">Yes. The app is free, has no in app purchases and needs no account.</p>
+        </details>
+        <details>
+          <summary class="title-2">Is this the official SL app?<i class="ph ph-plus" aria-hidden="true"></i></summary>
+          <p class="answer body-3">No. STHLM Rail is an independent app made by Zhihui Tang. It reads SL's open departure data. To buy tickets, use SL's own app.</p>
+        </details>
+        <details>
+          <summary class="title-2">Which kinds of transport does it cover?<i class="ph ph-plus" aria-hidden="true"></i></summary>
+          <p class="answer body-3">Metro, commuter rail, trams and light rail, buses and boats. Rail departures are grouped by track; buses and boats are grouped by stop.</p>
+        </details>
+        <details>
+          <summary class="title-2">How up to date are the departures?<i class="ph ph-plus" aria-hidden="true"></i></summary>
+          <p class="answer body-3">They come from SL's Transport API in real time. An open board refreshes every 20 seconds, and you can pull down to refresh at any moment.</p>
+        </details>
+        <details>
+          <summary class="title-2">Will I see cancellations and disruptions?<i class="ph ph-plus" aria-hidden="true"></i></summary>
+          <p class="answer body-3">Yes. Cancelled departures are marked in red, delays are shown on the time, and SL's notices for the station appear at the top of the board.</p>
+        </details>
+        <details>
+          <summary class="title-2">Can it plan a trip from A to B?<i class="ph ph-plus" aria-hidden="true"></i></summary>
+          <p class="answer body-3">Not inside the app. STHLM Rail is about the next departures from a station. For a full route, the More tab opens SL's journey planner on sl.se in Safari.</p>
+        </details>
+        <details>
+          <summary class="title-2">Which devices does it run on?<i class="ph ph-plus" aria-hidden="true"></i></summary>
+          <p class="answer body-3">iPhone and iPad with iOS or iPadOS 16 or later. It can also be installed on Macs with Apple silicon, although it isn't verified for macOS.</p>
+        </details>
+        <details>
+          <summary class="title-2">Which languages are supported?<i class="ph ph-plus" aria-hidden="true"></i></summary>
+          <p class="answer body-3">English, Swedish, Simplified Chinese and Traditional Chinese. You can switch language inside the app.</p>
+        </details>
+        <details>
+          <summary class="title-2">Where are my favorite stations stored?<i class="ph ph-plus" aria-hidden="true"></i></summary>
+          <p class="answer body-3">On your device. There is no account, so nothing about your stations is tied to your name.</p>
+        </details>
+        <details>
+          <summary class="title-2">How do I report a problem or suggest something?<i class="ph ph-plus" aria-hidden="true"></i></summary>
+          <p class="answer body-3">Open the More tab and choose feedback to send an email. Please include the station name if a board looks wrong.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="final" id="download">
+    <div class="wrap">
+      <div class="card reveal">
+        <img src="images/icon-512.png" width="96" height="96" alt="STHLM Rail app icon">
+        <h2 class="heading-2 grad">Check your next train before you leave the door</h2>
+        <p class="sub body-3">Free on the App Store for iPhone and iPad.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary btn-lg button-lg" href="https://apps.apple.com/se/app/stockholm-rail/id1084180460?l=en-GB"><i class="ph-fill ph-apple-logo" aria-hidden="true"></i>Download free on the App Store</a>
+          <p class="reassure body-6"><span><i class="ph ph-check" aria-hidden="true"></i>Free</span><span><i class="ph ph-check" aria-hidden="true"></i>No account</span><span><i class="ph ph-check" aria-hidden="true"></i>No in app purchases</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Privacy -->
+  <section class="privacy" id="privacy">
+    <div class="wrap">
+      <div class="card">
+        <h2 class="heading-5">Privacy</h2>
+        <ul class="body-6">
+          <li>There are no accounts and no ads. Favorite stations and settings are stored on your device.</li>
+          <li>To find bugs, the app sends anonymous usage events, such as which screens are opened and what is typed into map search, and crash reports to Google Firebase.</li>
+          <li>Departures are fetched from SL's open API. Your location is not used.</li>
+        </ul>
+        <p class="body-6 more"><a href="privacy.html">Read the full privacy policy<i class="ph ph-arrow-right" aria-hidden="true"></i></a></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap caption-2">
+    <p>© <span id="year">2026</span> Zhihui Tang. Not affiliated with SL.</p>
+    <nav aria-label="Footer">
+      <a href="../">All apps</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="https://apps.apple.com/se/app/stockholm-rail/id1084180460?l=en-GB">App Store</a>
+      <a href="https://www.trafiklab.se/">SL open data</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Stockholm time in the hero badge.
+  const clock = document.getElementById('clock');
+  const fmt = new Intl.DateTimeFormat('sv-SE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Stockholm' });
+  const tick = () => { clock.textContent = fmt.format(new Date()); };
+  tick(); setInterval(tick, 10000);
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Mobile menu: links arrive one after another, 60 ms apart, capped at 400 ms.
+  const toggle = document.querySelector('.toggle');
+  const panel = document.getElementById('menu');
+  const links = [...panel.querySelectorAll('a')];
+  links.forEach((a, i) => { a.style.transitionDelay = Math.min(i * 60, 400) + 'ms'; });
+  const setMenu = open => {
+    document.body.classList.toggle('menu-open', open);
+    toggle.setAttribute('aria-expanded', open);
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    panel.setAttribute('aria-hidden', !open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  };
+  toggle.addEventListener('click', () => setMenu(!document.body.classList.contains('menu-open')));
+  links.forEach(a => a.addEventListener('click', () => setMenu(false)));
+  addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+
+  // Section reveals, once each.
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { rootMargin: '0px 0px -10% 0px' });
+  document.querySelectorAll('.reveal').forEach(el => reduce ? el.classList.add('in') : io.observe(el));
+
+  // Current section in the nav.
+  const navLinks = [...document.querySelectorAll('.nav-links a')];
+  const spy = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      navLinks.forEach(a => a.setAttribute('aria-current', a.hash === '#' + e.target.id));
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  ['top', 'features', 'how', 'faq'].forEach(id => spy.observe(document.getElementById(id)));
+
+  // Tagline: split into words, light them one by one as they cross 65% of the viewport.
+  // Everything after the first line lights up in amber, like the next departure on a sign.
+  const tagline = document.getElementById('tagline');
+  tagline.innerHTML = tagline.innerHTML.split('<br>').map((line, n) =>
+    line.split(/(\s+)/).map(w => w.trim() ? `<span class="w${n ? ' amber' : ''}">${w}</span>` : w).join('')
+  ).join('<br>');
+  if (reduce) return;
+  const words = [...tagline.querySelectorAll('.w')];
+  let queued = false;
+  const update = () => {
+    queued = false;
+    const line = innerHeight * 0.65;
+    const top = tagline.getBoundingClientRect().top;
+    const progress = (line - top) / (tagline.offsetHeight + innerHeight * 0.15);
+    const lit = Math.round(Math.max(0, Math.min(1, progress)) * words.length);
+    words.forEach((w, i) => { if (i < lit) w.classList.add('on'); });
+    if (lit >= words.length) removeEventListener('scroll', onScroll);
+  };
+  const onScroll = () => { if (!queued) { queued = true; requestAnimationFrame(update); } };
+  addEventListener('scroll', onScroll, { passive: true });
+  update();
+})();
+</script>
+</body>
+</html>

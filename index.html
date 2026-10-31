@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apps by Zhihui Tang</title>
+<meta name="description" content="Apps made by Zhihui Tang, an independent developer in Stockholm. App pages, privacy policies and App Store links.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23181818'/%3E%3Crect x='7' y='7' width='8' height='8' rx='2' fill='%23ffffff'/%3E%3Crect x='17' y='7' width='8' height='8' rx='2' fill='%239b9b9b'/%3E%3Crect x='7' y='17' width='8' height='8' rx='2' fill='%239b9b9b'/%3E%3Crect x='17' y='17' width='8' height='8' rx='2' fill='%23ffffff'/%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Apps by Zhihui Tang">
+<meta property="og:description" content="App pages, privacy policies and App Store links.">
+<meta property="og:image" content="sthlm-rail/images/icon-512.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<style>
+:root{
+  --bg:#000000; --surface:#181818; --surface-2:#1F1F1F; --surface-3:#272727; --line:#313131;
+  --text:#FFFFFF; --muted:#9B9B9B;
+  --ease:cubic-bezier(0.22,1,0.36,1);
+  --s-25:2px; --s-50:4px; --s-75:8px; --s-100:12px; --s-200:16px; --s-300:24px; --s-400:32px;
+  --s-500:40px; --s-600:48px; --s-700:64px; --s-800:80px; --s-900:96px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100vh;display:flex;flex-direction:column;background:var(--bg);color:var(--text);font-family:'Geist',system-ui,sans-serif;font-size:16px;line-height:24px;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--text);outline-offset:4px;border-radius:8px}
+h1,h2,h3{text-wrap:balance}
+p,li{text-wrap:pretty}
+
+/* Text styles, same names as the app pages */
+.heading-1{font-size:60px;line-height:60px;font-weight:600;letter-spacing:-0.02em}
+.heading-5{font-size:24px;line-height:32px;font-weight:600}
+.title-3{font-size:16px;line-height:24px;font-weight:500}
+.title-4{font-size:14px;line-height:20px;font-weight:500}
+.body-3{font-size:16px;line-height:24px;font-weight:400}
+.body-6{font-size:14px;line-height:20px;font-weight:400}
+.button-sm{font-size:14px;line-height:20px;font-weight:600}
+.caption-2{font-size:14px;line-height:20px;font-weight:400}
+.caption-3{font-size:12px;line-height:16px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase}
+.caption-4{font-size:12px;line-height:16px;font-weight:500}
+
+.skip{position:absolute;left:var(--s-200);top:var(--s-200);z-index:10;background:var(--text);color:#000;padding:var(--s-75) var(--s-100);border-radius:8px;text-decoration:none;transform:translateY(-200%);transition:transform 300ms var(--ease)}
+.skip:focus{transform:none}
+
+main{flex:1;width:100%;max-width:880px;margin:0 auto;padding:var(--s-900) var(--s-200) var(--s-800)}
+header .kicker{color:var(--muted)}
+.grad{background:linear-gradient(90deg,#FFFFFF,#9B9B9B);-webkit-background-clip:text;background-clip:text;color:transparent}
+header h1{max-width:680px;margin-top:var(--s-200)}
+header p.lead{max-width:680px;margin-top:var(--s-300);color:var(--muted)}
+
+.list-head{display:flex;align-items:baseline;justify-content:space-between;gap:var(--s-200);margin-top:var(--s-800);color:var(--muted)}
+.apps{list-style:none;display:grid;gap:var(--s-200);margin-top:var(--s-200)}
+
+.app{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--s-300);padding:var(--s-300);border-radius:24px;background:var(--surface);border:1px solid var(--line);transition:border-color 300ms var(--ease)}
+.app:hover{border-color:#4A4A4A}
+.app > img{width:96px;height:96px;border-radius:24px;background:var(--surface-3)}
+.app .meta{display:flex;flex-wrap:wrap;gap:var(--s-75);margin-top:var(--s-75)}
+.chip{display:inline-flex;align-items:center;gap:var(--s-50);padding:var(--s-25) var(--s-75);border-radius:8px;background:var(--surface-2);border:1px solid var(--line);color:var(--muted)}
+.app p.desc{margin-top:var(--s-200);color:#D6D6D6}
+.links{display:flex;flex-wrap:wrap;gap:var(--s-75);margin-top:var(--s-300)}
+.btn{display:inline-flex;align-items:center;gap:var(--s-75);padding:var(--s-75) var(--s-100);border-radius:12px;text-decoration:none;
+  transition:transform 300ms var(--ease),background-color 300ms var(--ease)}
+.btn i{font-size:16px}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:scale(0.98)}
+.btn-primary{background:var(--text);color:#000}
+.btn-primary:hover{background:#E6E6E6}
+.btn-ghost{background:var(--surface-3);color:var(--text)}
+.btn-ghost:hover{background:var(--line)}
+
+.about{margin-top:var(--s-800);padding:var(--s-400);border-radius:24px;background:var(--surface);border:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--s-300)}
+.about h2{margin-bottom:var(--s-75)}
+.about p{max-width:480px;color:var(--muted)}
+
+footer{padding:var(--s-400) var(--s-200) var(--s-600);color:var(--muted)}
+footer .wrap{max-width:880px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;gap:var(--s-200)}
+footer nav{display:flex;flex-wrap:wrap;gap:var(--s-300)}
+footer a{text-decoration:none;transition:color 300ms var(--ease)}
+footer a:hover{color:var(--text)}
+
+.reveal{opacity:0;transform:translateY(32px);transition:opacity 700ms var(--ease),transform 700ms var(--ease)}
+.reveal.in{opacity:1;transform:none}
+
+@media (max-width:640px){
+  main{padding-top:var(--s-800)}
+  .heading-1{font-size:36px;line-height:40px}
+  .app{grid-template-columns:1fr;gap:var(--s-200);padding:var(--s-200);border-radius:16px}
+  .app > img{width:64px;height:64px;border-radius:16px}
+  .about{padding:var(--s-300);border-radius:16px}
+}
+@media (prefers-reduced-motion:reduce){
+  .reveal{transform:none;transition:opacity 300ms linear}
+  .btn:hover,.btn:active{transform:none}
+}
+</style>
+</head>
+<body>
+<a class="skip button-sm" href="#main">Skip to content</a>
+
+<main id="main">
+  <header class="reveal">
+    <p class="kicker caption-3">Zhihui Tang · Stockholm</p>
+    <h1 class="heading-1 grad">Small apps<br> for everyday life</h1>
+    <p class="lead body-3">Apps I design and build on my own. Each one has a page explaining what it does, a privacy policy, and a link to the App Store.</p>
+  </header>
+
+  <section aria-labelledby="apps-head">
+    <div class="list-head reveal">
+      <h2 class="caption-3" id="apps-head">Apps</h2>
+      <p class="caption-4" id="count"></p>
+    </div>
+    <ul class="apps" id="apps">
+      <!-- One entry per app directory. Keep in step with README.md and 404.html. -->
+      <li class="app reveal">
+        <img src="sthlm-rail/images/icon-180.png" alt="STHLM Rail app icon" width="96" height="96">
+        <div>
+          <h3 class="heading-5">STHLM Rail</h3>
+          <div class="meta caption-4">
+            <span class="chip"><i class="ph ph-device-mobile" aria-hidden="true"></i>iPhone and iPad</span>
+            <span class="chip"><i class="ph ph-train-simple" aria-hidden="true"></i>Travel</span>
+            <span class="chip"><i class="ph ph-tag" aria-hidden="true"></i>Free</span>
+          </div>
+          <p class="desc body-3">Tap a station on the Stockholm rail map and see the next metro, commuter train, tram, bus or boat, laid out like SL's platform signs.</p>
+          <div class="links">
+            <a class="btn btn-primary button-sm" href="sthlm-rail/">See the app<i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+            <a class="btn btn-ghost button-sm" href="sthlm-rail/privacy.html">Privacy policy</a>
+            <a class="btn btn-ghost button-sm" href="https://apps.apple.com/se/app/stockholm-rail/id1084180460?l=en-GB"><i class="ph-fill ph-apple-logo" aria-hidden="true"></i>App Store</a>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section class="about reveal" aria-labelledby="contact-head">
+    <div>
+      <h2 class="title-3" id="contact-head">Questions or feedback</h2>
+      <p class="body-6">Found a bug, or have an idea for one of the apps? Email me and include the app name.</p>
+    </div>
+    <a class="btn btn-primary button-sm" href="mailto:crafttang@gmail.com"><i class="ph ph-envelope-simple" aria-hidden="true"></i>crafttang@gmail.com</a>
+  </section>
+</main>
+
+<footer class="caption-2">
+  <div class="wrap">
+    <p>© <span id="year">2026</span> Zhihui Tang</p>
+    <nav aria-label="Footer">
+      <a href="sthlm-rail/privacy.html">STHLM Rail privacy</a>
+      <a href="https://github.com/jeffery812/apps">Source on GitHub</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(() => {
+  document.getElementById('year').textContent = new Date().getFullYear();
+  const n = document.querySelectorAll('#apps > .app').length;
+  document.getElementById('count').textContent = n === 1 ? '1 app' : `${n} apps`;
+
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { rootMargin: '0px 0px -10% 0px' });
+  document.querySelectorAll('.reveal').forEach(el => reduce ? el.classList.add('in') : io.observe(el));
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found</title>
+<meta name="description" content="This page doesn't exist. Find the app you were looking for.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23181818'/%3E%3Ctext x='16' y='21' font-family='monospace' font-size='12' font-weight='600' fill='%23ffffff' text-anchor='middle'%3E404%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<style>
+:root{
+  --bg:#000000; --surface:#181818; --surface-2:#1F1F1F; --surface-3:#272727; --line:#313131;
+  --text:#FFFFFF; --muted:#9B9B9B;
+  --ease:cubic-bezier(0.22,1,0.36,1);
+  --s-25:2px; --s-50:4px; --s-75:8px; --s-100:12px; --s-200:16px; --s-300:24px; --s-400:32px;
+  --s-500:40px; --s-600:48px; --s-700:64px; --s-800:80px; --s-900:96px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100vh;display:flex;flex-direction:column;background:var(--bg);color:var(--text);font-family:'Geist',system-ui,sans-serif;font-size:16px;line-height:24px;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--text);outline-offset:4px;border-radius:8px}
+h1,h2{text-wrap:balance}
+p{text-wrap:pretty}
+
+/* Text styles, same names as the app pages */
+.heading-1{font-size:60px;line-height:60px;font-weight:600;letter-spacing:-0.02em}
+.heading-4{font-size:30px;line-height:36px;font-weight:600;letter-spacing:-0.01em}
+.title-3{font-size:16px;line-height:24px;font-weight:500}
+.body-3{font-size:16px;line-height:24px;font-weight:400}
+.body-5{font-size:14px;line-height:20px;font-weight:500}
+.button-sm{font-size:14px;line-height:20px;font-weight:600}
+.caption-2{font-size:14px;line-height:20px;font-weight:400}
+.caption-3{font-size:12px;line-height:16px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase}
+.mono{font-family:'Geist Mono',ui-monospace,monospace}
+
+.skip{position:absolute;left:var(--s-200);top:var(--s-200);background:var(--text);color:#000;padding:var(--s-75) var(--s-100);border-radius:8px;text-decoration:none;transform:translateY(-200%);transition:transform 300ms var(--ease)}
+.skip:focus{transform:none}
+
+main{flex:1;width:100%;max-width:680px;margin:0 auto;padding:var(--s-900) var(--s-200) var(--s-700)}
+.code{display:inline-flex;align-items:center;gap:var(--s-75);padding:var(--s-50) var(--s-100);border-radius:12px;background:var(--surface);border:1px solid var(--line);color:var(--muted)}
+.code i{font-size:16px}
+.grad{background:linear-gradient(90deg,#FFFFFF,#9B9B9B);-webkit-background-clip:text;background-clip:text;color:transparent}
+h1{margin-top:var(--s-300)}
+.lead{margin-top:var(--s-300);color:var(--muted)}
+.path{display:block;margin-top:var(--s-200);padding:var(--s-100) var(--s-200);border-radius:12px;background:var(--surface);border:1px solid var(--line);color:var(--muted);overflow-wrap:anywhere}
+.path:empty{display:none}
+
+.apps-head{margin-top:var(--s-700);color:var(--muted)}
+.apps{list-style:none;display:flex;flex-direction:column;gap:var(--s-100);margin-top:var(--s-200)}
+.app{display:flex;align-items:center;gap:var(--s-200);padding:var(--s-200);border-radius:24px;background:var(--surface);border:1px solid var(--line);transition:border-color 300ms var(--ease)}
+.app.match{border-color:#6A6A6A}
+.app img{width:56px;height:56px;border-radius:16px;flex:none;background:var(--surface-3)}
+.app .info{flex:1;min-width:0}
+.app .hint{color:var(--muted)}
+.app .links{display:flex;gap:var(--s-75);flex-wrap:wrap;margin-top:var(--s-75)}
+.btn{display:inline-flex;align-items:center;gap:var(--s-50);padding:var(--s-75) var(--s-100);border-radius:12px;text-decoration:none;
+  transition:transform 300ms var(--ease),background-color 300ms var(--ease)}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:scale(0.98)}
+.btn-primary{background:var(--text);color:#000}
+.btn-primary:hover{background:#E6E6E6}
+.btn-ghost{background:var(--surface-3);color:var(--text)}
+.btn-ghost:hover{background:var(--line)}
+
+.back{margin-top:var(--s-500)}
+.back button{display:inline-flex;align-items:center;gap:var(--s-75);padding:var(--s-75) var(--s-100);border:0;border-radius:12px;background:none;color:var(--muted);font:inherit;cursor:pointer;transition:color 300ms var(--ease),background-color 300ms var(--ease)}
+.back button:hover{color:var(--text);background:var(--surface)}
+.back button:active{transform:scale(0.98)}
+.back[hidden]{display:none}
+
+footer{padding:var(--s-400) var(--s-200) var(--s-600);text-align:center;color:var(--muted)}
+
+.reveal{opacity:0;transform:translateY(32px);animation:rise 700ms var(--ease) forwards}
+.reveal:nth-child(2){animation-delay:60ms}
+.reveal:nth-child(3){animation-delay:120ms}
+.reveal:nth-child(4){animation-delay:180ms}
+@keyframes rise{to{opacity:1;transform:none}}
+
+@media (max-width:560px){
+  main{padding-top:var(--s-800)}
+  .heading-1{font-size:36px;line-height:40px}
+  .app{align-items:flex-start;border-radius:16px}
+  .app img{width:48px;height:48px;border-radius:12px}
+}
+@media (prefers-reduced-motion:reduce){
+  .reveal{transform:none;animation:fade 300ms linear forwards}
+  @keyframes fade{to{opacity:1}}
+  .btn:hover,.btn:active,.back button:active{transform:none}
+}
+</style>
+</head>
+<body>
+<a class="skip button-sm" href="#main">Skip to content</a>
+
+<main id="main">
+  <p class="code mono body-5 reveal"><i class="ph ph-signpost" aria-hidden="true"></i>404 · Not found</p>
+  <h1 class="heading-1 grad reveal">This page<br> doesn't exist</h1>
+  <div class="reveal">
+    <p class="lead body-3" id="lead">The link may be old, or the address may have a typo. Pick an app below to get back on track.</p>
+    <code class="path mono caption-2" id="path"></code>
+  </div>
+
+  <section class="reveal" aria-labelledby="apps-head">
+    <h2 class="apps-head caption-3" id="apps-head">Apps</h2>
+    <ul class="apps" id="apps">
+      <!-- One entry per app directory. Keep in step with README.md. -->
+      <li class="app" data-slug="sthlm-rail">
+        <img src="/apps/sthlm-rail/images/icon-180.png" alt="" width="56" height="56" data-src="sthlm-rail/images/icon-180.png">
+        <div class="info">
+          <p class="title-3">STHLM Rail</p>
+          <p class="hint caption-2">Stockholm departures as platform signs</p>
+          <div class="links">
+            <a class="btn btn-primary button-sm" href="/apps/sthlm-rail/" data-href="sthlm-rail/">Open app page</a>
+            <a class="btn btn-ghost button-sm" href="/apps/sthlm-rail/privacy.html" data-href="sthlm-rail/privacy.html">Privacy policy</a>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <p class="back" id="back" hidden><button type="button" class="title-3"><i class="ph ph-arrow-left" aria-hidden="true"></i>Go back to the previous page</button></p>
+</main>
+
+<footer class="caption-2">© <span id="year">2026</span> Zhihui Tang</footer>
+
+<script>
+(() => {
+  // GitHub Pages serves this file for any missing path and keeps that path in the
+  // address bar, so links are built from the site root, not relative to the page.
+  // Online the site lives under /apps/; a local preview serves it from /.
+  const base = location.pathname.startsWith('/apps/') || location.pathname === '/apps' ? '/apps/' : '/';
+  document.querySelectorAll('[data-href]').forEach(a => { a.href = base + a.dataset.href; });
+  document.querySelectorAll('[data-src]').forEach(img => { img.src = base + img.dataset.src; });
+
+  const path = decodeURIComponent(location.pathname);
+  if (!path.endsWith('/404.html')) document.getElementById('path').textContent = path;
+
+  // If the missing page sits inside an app's folder, put that app first and say so.
+  const slug = path.slice(base.length).split('/')[0];
+  const match = document.querySelector(`.app[data-slug="${CSS.escape(slug)}"]`);
+  if (match) {
+    match.classList.add('match');
+    match.parentElement.prepend(match);
+    const name = match.querySelector('.title-3').textContent;
+    document.getElementById('lead').textContent =
+      `${name} has no page at this address. It may have moved, or the address may have a typo. The app page and privacy policy are below.`;
+  }
+
+  // Only offer "back" when there is a page on this site to go back to.
+  if (document.referrer && new URL(document.referrer).origin === location.origin && history.length > 1) {
+    const back = document.getElementById('back');
+    back.hidden = false;
+    back.querySelector('button').addEventListener('click', () => history.back());
+  }
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
