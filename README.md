@@ -1,56 +1,60 @@
 # apps
 
-我所有 App 的介绍页和隐私政策，通过 GitHub Pages 发布。每个 App 一个目录。
+**English** | [简体中文](README.zh-CN.md)
 
-- 仓库：<https://github.com/jeffery812/apps>
-- 网站：<https://jeffery812.github.io/apps/>
+Landing pages and privacy policies for all my apps, published with GitHub Pages. Each app has its own directory.
 
-## App 列表
+- Repository: <https://github.com/jeffery812/apps>
+- Website: <https://jeffery812.github.io/apps/>
 
-| App | 介绍页 | 隐私政策 | App Store |
+## Apps
+
+| App | Landing page | Privacy policy | App Store |
 | --- | --- | --- | --- |
 | STHLM Rail | [sthlm-rail/](https://jeffery812.github.io/apps/sthlm-rail/) | [privacy.html](https://jeffery812.github.io/apps/sthlm-rail/privacy.html) | [id1084180460](https://apps.apple.com/se/app/stockholm-rail/id1084180460?l=en-GB) |
 
-## 目录结构
+## Structure
 
 ```
 apps/
 ├── README.md
-├── index.html            # 所有 App 的列表
-├── 404.html              # 全站共用的 404 页面，GitHub Pages 只认根目录下的这个
+├── index.html            # List of all apps
+├── 404.html              # Site-wide 404 page; GitHub Pages only uses the one in the root
 └── sthlm-rail/
-    ├── index.html        # 介绍页
-    ├── privacy.html      # 隐私政策
-    └── images/           # 截图、图标
+    ├── index.html        # Landing page
+    ├── privacy.html      # Privacy policy
+    └── images/           # Screenshots and icons
 ```
 
-## 约定
+## Conventions
 
-- **目录名**用产品名，小写，单词之间用 `-` 连接，不带平台后缀（`sthlm-rail`，而不是 `sthlm-rail-ios`）。目录名就是网址的一部分，发布后不要再改，否则 App Store Connect 里填的隐私政策网址会失效。
-- **每个 App 至少有两个页面**：`index.html`（介绍）和 `privacy.html`（隐私政策）。
-- **只用相对路径**引用图片和页面（`images/icon-180.png`、`privacy.html`），整个目录挪到别处也能直接用。
-- **页面是纯静态 HTML**，不需要构建步骤。字体和图标从 Google Fonts、unpkg 加载，其他内容都写在页面里。
-- **隐私政策的内容要跟 App 的实际行为一致**，包括所用的 SDK、上报的事件、数据保留期限。App 改了数据处理方式时，先更新 `privacy.html` 和页面上的"Last updated"日期，再发版本，同时检查 App Store Connect 里的隐私标签。
+- **Directory names** use the product name in lowercase, with words joined by `-` and no platform suffix (`sthlm-rail`, not `sthlm-rail-ios`). The directory name is part of the URL, so don't rename it after publishing, or the privacy policy URL in App Store Connect will break.
+- **Every app has at least two pages**: `index.html` (landing page) and `privacy.html` (privacy policy).
+- **Use relative paths only** for images and pages (`images/icon-180.png`, `privacy.html`), so a directory still works if it's moved.
+- **Pages are plain static HTML** with no build step. Fonts and icons load from Google Fonts and unpkg; everything else lives in the page.
+- **All pages are in English.**
+- **The README exists in English (`README.md`) and Chinese (`README.zh-CN.md`).** Keep both in sync when you change either one.
+- **The privacy policy must match what the app actually does**, including the SDKs it uses, the events it reports and how long data is kept. When the app's data handling changes, update `privacy.html` and its "Last updated" date before releasing, and check the privacy labels in App Store Connect.
 
-## 添加一个新 App
+## Adding a new app
 
-1. 新建目录 `<app-name>/`，放入 `index.html`、`privacy.html` 和 `images/`。
-2. 在本 README 的 App 列表、根目录的 `index.html` 和 `404.html` 的 App 列表里各加一项。
-3. 本地预览，确认没有坏链接（见下文）。
-4. 提交并推送，GitHub Pages 一般一两分钟后更新。
-5. 在 App Store Connect 中，把该 App 的隐私政策网址设为 `https://jeffery812.github.io/apps/<app-name>/privacy.html`。如果需要，再把技术支持网址或营销网址设为介绍页地址。
+1. Create a directory `<app-name>/` containing `index.html`, `privacy.html` and `images/`.
+2. Add an entry to the app list in this README (both the English and Chinese versions), in the root `index.html` and in `404.html`.
+3. Preview locally and check for broken links (see below).
+4. Commit and push. GitHub Pages usually updates within a minute or two.
+5. In App Store Connect, set the app's privacy policy URL to `https://jeffery812.github.io/apps/<app-name>/privacy.html`. If needed, set the support URL or marketing URL to the landing page.
 
-## 本地预览
+## Local preview
 
 ```bash
 cd /Users/zhihuitang/repo/Documents/apps
 python3 -m http.server 8000
 ```
 
-然后打开 <http://localhost:8000/sthlm-rail/>。直接双击打开 HTML 文件也能看，但用本地服务器预览更接近线上效果。
+Then open <http://localhost:8000/sthlm-rail/>. Opening the HTML files directly also works, but a local server is closer to how the live site behaves.
 
-## 发布设置
+## Publishing setup
 
-第一次需要在 GitHub 上设置一次：仓库的 **Settings → Pages → Build and deployment**，Source 选 **Deploy from a branch**，分支选 `main`，目录选 `/ (root)`。
+One-time setup on GitHub: in the repository's **Settings → Pages → Build and deployment**, set Source to **Deploy from a branch**, branch `main`, folder `/ (root)`.
 
-以后如果改用自己的域名，在根目录加一个 `CNAME` 文件，再在域名服务商那里配置 DNS。各 App 的路径不用变。
+To use a custom domain later, add a `CNAME` file to the root and configure DNS with your domain provider. App paths stay the same.
